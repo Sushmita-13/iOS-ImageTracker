@@ -617,7 +617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3245cef2e5f0d048b91e96513656c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MaskMarkerHandler
-  prefabTracker: {fileID: 1227088963672913984, guid: 68363b4b2be1f1a41be695d10d7e52fd, type: 3}
+  prefabTracker: {fileID: 2028121324172935292, guid: efe010ac65a10c3499d82d597ae22b4a, type: 3}
   trackedImageManager: {fileID: 1085977872}
 --- !u!1 &2057655669
 GameObject:
