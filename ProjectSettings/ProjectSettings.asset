@@ -167,13 +167,13 @@ PlayerSettings:
   applicationIdentifier:
     Android: com.TribeTeam.iOSImageTracker
     Standalone: com.Unity-Technologies.com.unity.template.urp-blank
-    iPhone: com.TribeTeam.iOS-ImageTracker
+    iPhone: com.tribeteam.ioscloud
   buildNumber:
     Standalone: 0
     VisionOS: 0
     iPhone: 0
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 0
+  overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 23
   AndroidTargetSdkVersion: 0
@@ -242,14 +242,14 @@ PlayerSettings:
   metalCompileShaderBinary: 0
   iOSRenderExtraFrameOnPause: 0
   iosCopyPluginsCodeInsteadOfSymlink: 0
-  appleDeveloperTeamID: 
+  appleDeveloperTeamID: 5H93S8B4YS
   iOSManualSigningProvisioningProfileID: 
   tvOSManualSigningProvisioningProfileID: 
   VisionOSManualSigningProvisioningProfileID: 
   iOSManualSigningProvisioningProfileType: 0
   tvOSManualSigningProvisioningProfileType: 0
   VisionOSManualSigningProvisioningProfileType: 0
-  appleEnableAutomaticSigning: 0
+  appleEnableAutomaticSigning: 1
   iOSRequireARKit: 0
   iOSAutomaticallyDetectAndAddCapabilities: 1
   appleEnableProMotion: 0
@@ -935,11 +935,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: c799ef25-4a8b-4b97-83f8-0833e9c13ed8
+  cloudProjectId: d406c59a-b5b3-4b88-86a2-6a2a97478783
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: iOS-ImageTracker
-  organizationId: sushmita-s
+  organizationId: sunilshenoy03
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
