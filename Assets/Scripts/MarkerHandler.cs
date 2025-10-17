@@ -3,80 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using TMPro;
-
 public class MaskMarkerHandler : MonoBehaviour
 {
     [SerializeField] private GameObject prefabTracker;
-    //[SerializeField] private TextMeshProUGUI text;
-
     [SerializeField] private ARTrackedImageManager trackedImageManager;
-    private GameObject instantiatedPrefab;
-    private Vector3 trackedPosition;
-    private Quaternion trackedRotation;
-
-
-    void Awake()
-    {
-        //trackedImageManager = GetComponent<ARTrackedImageManager>();
-    }
-
+    private Dictionary<string, GameObject> instantiatedPrefabs = new Dictionary<string, GameObject>();
     void OnEnable()
     {
-        trackedImageManager.trackedImagesChanged += OnTrackedImagesChanged;
+        trackedImageManager.trackablesChanged.AddListener(OnTrackablesChanged);
     }
-
     void OnDisable()
     {
-        trackedImageManager.trackedImagesChanged -= OnTrackedImagesChanged;
+        trackedImageManager.trackablesChanged.RemoveListener(OnTrackablesChanged);
     }
-
     public void Replay()
     {
-        Destroy(instantiatedPrefab);
-        StartCoroutine(CreatePrefab());
-    }
-
-    IEnumerator CreatePrefab()
-    {
-        yield return new WaitForSeconds(2f);
-        if (prefabTracker != null)
+        foreach (var prefab in instantiatedPrefabs.Values)
         {
-            instantiatedPrefab = Instantiate(prefabTracker, trackedPosition, trackedRotation);
+            if (prefab != null)
+            {
+                Destroy(prefab);
+            }
         }
+        instantiatedPrefabs.Clear();
     }
-
-    void OnTrackedImagesChanged(ARTrackedImagesChangedEventArgs eventArgs)
+    void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
         foreach (ARTrackedImage trackedImage in eventArgs.added)
         {
-            // Handle the detection of a new marker
             Debug.Log("Detected a new marker: " + trackedImage.referenceImage.name);
-            //text.text = "Detected a new marker: " + trackedImage.referenceImage.name +" "+ trackedImage.transform.position + " " + trackedImage.transform.rotation;
-            trackedPosition = trackedImage.transform.position;
-            trackedRotation = trackedImage.transform.rotation;
-            //DebugHandler.Instance.ChangeText("Detected a new marker: " + trackedImage.referenceImage.name);
-            // Example: Instantiate a prefab at the marker location
-            if (prefabTracker != null)
+            if (prefabTracker != null && !instantiatedPrefabs.ContainsKey(trackedImage.referenceImage.name))
             {
-                instantiatedPrefab = Instantiate(prefabTracker, trackedPosition, trackedRotation);
+                GameObject prefab = Instantiate(prefabTracker, trackedImage.transform);
+                prefab.transform.localPosition = Vector3.zero;
+                prefab.transform.localRotation = Quaternion.identity;
+                instantiatedPrefabs[trackedImage.referenceImage.name] = prefab;
             }
-
-            // 
         }
-
         foreach (ARTrackedImage trackedImage in eventArgs.updated)
         {
-            // Handle the update of an existing marker
-            /*if(instantiatedPrefab != null)
-            {
-                instantiatedPrefab.transform.Rotate(0, 15f, 0);
-            }*/
+            // The prefab will automatically update because it's parented to the tracked image
+            // You can add logic here if you need to show/hide based on tracking state
+            // if (instantiatedPrefabs.ContainsKey(trackedImage.referenceImage.name))
+            // {
+            //     GameObject prefab = instantiatedPrefabs[trackedImage.referenceImage.name];
+            //     prefab.SetActive(trackedImage.trackingState == UnityEngine.XR.ARSubsystems.TrackingState.Tracking);
+            // }
         }
-
-        foreach (ARTrackedImage trackedImage in eventArgs.removed)
-        {
-            // Handle the removal of a marker
-            //Destroy(instantiatedPrefab);
-        }
+        //foreach (ARTrackedImage trackedImage in eventArgs.removed)
+        //{
+        //    if (instantiatedPrefabs.ContainsKey(trackedImage.referenceImage.name))
+        //    {
+        //        Destroy(instantiatedPrefabs[trackedImage.referenceImage.name]);
+        //        instantiatedPrefabs.Remove(trackedImage.referenceImage.name);
+        //    }
+        //}
     }
 }
