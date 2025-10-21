@@ -8,6 +8,7 @@ public class MaskMarkerHandler : MonoBehaviour
     [SerializeField] private GameObject prefabTracker;
     [SerializeField] private ARTrackedImageManager trackedImageManager;
     private Dictionary<string, GameObject> instantiatedPrefabs = new Dictionary<string, GameObject>();
+    private bool isDetectedOnce = false;
     void OnEnable()
     {
         trackedImageManager.trackablesChanged.AddListener(OnTrackablesChanged);
@@ -29,12 +30,15 @@ public class MaskMarkerHandler : MonoBehaviour
     }
     void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
     {
+        if (!isDetectedOnce)
+        {
         foreach (ARTrackedImage trackedImage in eventArgs.added)
         {
             Debug.Log("Detected a new marker: " + trackedImage.referenceImage.name);
             if (prefabTracker != null && !instantiatedPrefabs.ContainsKey(trackedImage.referenceImage.name))
             {
                 GameObject prefab = Instantiate(prefabTracker, trackedImage.transform);
+                    isDetectedOnce = true;
                 prefab.transform.localPosition = Vector3.zero;
                 prefab.transform.localRotation = Quaternion.identity;
                 instantiatedPrefabs[trackedImage.referenceImage.name] = prefab;
@@ -58,5 +62,6 @@ public class MaskMarkerHandler : MonoBehaviour
         //        instantiatedPrefabs.Remove(trackedImage.referenceImage.name);
         //    }
         //}
+        }
     }
 }
